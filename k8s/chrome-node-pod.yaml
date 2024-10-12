@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: chrome-node
+  labels:
+    app: selenium-chrome
+spec:
+  containers:
+    - name: selenium-chrome
+      image: seleniarm/standalone-chromium:latest
+      ports:
+        - containerPort: 4444

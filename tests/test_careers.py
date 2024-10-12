@@ -8,17 +8,28 @@ from pages.home_page import HomePage
 from pages.careers_page import CareersPage
 from pages.qa_jobs_page import QAJobsPage
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 from pages.base_page import BasePage
 
 class TestCareers(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         print("Setting up the test environment...")
-        cls.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))  
+        # Configure Chrome options
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")  # Run in headless mode
+        chrome_options.add_argument("--no-sandbox")  # Disable the sandbox
+        chrome_options.add_argument("--disable-dev-shm-usage")  # Overcome limited resource problems
+        chrome_options.add_argument("--enable-logging")
+        chrome_options.add_argument("--v=1")
+
+         
+        # Initialize the WebDriver with options
+        cls.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
         cls.driver.maximize_window()
         cls.base_page = BasePage(cls.driver)
         print("Test environment set up successfully.")
-
+        
     @classmethod
     def tearDownClass(cls):
         print("Tearing down the test environment...")
@@ -49,8 +60,7 @@ class TestCareers(unittest.TestCase):
         except Exception as e:
             print(f"Test failed: {str(e)}")
                 
-        def test_filter_qa_jobs(self):
-            print("Starting test: test_filter_qa_jobs")
+        
             
         qa_jobs_page = QAJobsPage(self.driver)
         qa_jobs_page.go_to_qa_jobs()  # Navigate directly to QA Jobs page

@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-controller
+  labels:
+    app: test-controller
+spec:
+  containers:
+    - name: test-runner
+      image: yagmurefe/test-insider:latest
+      env:
+        - name: SELENIUM_SERVER_URL
+          value: "http://chrome-node:4444/wd/hub"
+      command: ["bash", "-c", "python -m unittest discover -s tests -p '*.py'"]
+      resources:
+        requests:
+          memory: "512Mi"
+          cpu: "500m"
+        limits:
+          memory: "1Gi"
+          cpu: "1"
